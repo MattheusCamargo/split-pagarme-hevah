@@ -26,6 +26,7 @@ if (!defined('ABSPATH') || !function_exists('add_action')) {
 }
 
 require_once dirname(__FILE__) . '/constants.php';
+require_once __DIR__ . '/src/Split/split-functions.php';
 
 /**
  * Renders custom Wordpress Notice on every admin pages.

@@ -319,6 +319,7 @@ final class OrderService
                 throw new \Exception($message, 400);
             }
 
+            
             return [$order];
         } catch (\Exception $e) {
             $this->logService->orderInfo(

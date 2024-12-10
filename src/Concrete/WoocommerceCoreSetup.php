@@ -109,6 +109,7 @@ final class WoocommerceCoreSetup extends AbstractModuleCoreSetup
         $configData = self::fillWithHubConfig($configData, $storeConfig);
         $configData = self::fillWithMarketplaceConfig($configData);
         $configData = self::fillWithGooglePayConfig($configData, $storeConfig);
+        $configData = self::fillWithSplitSettings($configData);
 
         // These method calls are commented for now because they are not implemented yet:
         // $configData = self::fillWithAddressConfig($configData, $storeConfig);
@@ -121,6 +122,25 @@ final class WoocommerceCoreSetup extends AbstractModuleCoreSetup
         );
 
         self::$moduleConfig = $config;
+    }
+
+    private static function fillWithSplitSettings($configData) {
+        $storeConfig = new Config();
+
+        $configData->affiliatePercentage = $storeConfig->getData('affiliate_percentage');
+        $configData->vendorPercentage = $storeConfig->getData('vendor_percentage');
+
+        return $configData;
+    }
+
+    public function getAffiliatePercentage(): float
+    {
+        return (float) $this->moduleConfig->getData('affiliate_percentage');
+    }
+
+    public function getVendorPercentage(): float
+    {
+        return (float) $this->moduleConfig->getData('vendor_percentage');
     }
 
     /**
