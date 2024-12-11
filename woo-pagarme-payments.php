@@ -1,11 +1,11 @@
 <?php
 /*
- * Plugin Name: Split Pagarme Hevah for WooCommerce
+ * Plugin Name: Split Pagarme Hevah para WooCommerce
  * Version:     3.4.2
- * Author:      Pagar.me
- * Author URI:  https://pagar.me
+ * Author:      Mattheus Camargo
+ * Author URI:  https://github.com/MattheusCamargo/
  * License:     GPL2
- * Description: Enable Pagar.me Gateway for WooCommerce
+ * Description: Habilita o Gateway da Pagarme com módulo de Split integrado ao Woocommerce com Affiliate WP e Dokan
  * Requires at least: 4.1
  * Tested up to: 6.6.1
  * WC requires at least: 3.9.0
