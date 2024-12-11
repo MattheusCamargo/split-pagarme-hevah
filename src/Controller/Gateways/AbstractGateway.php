@@ -339,17 +339,17 @@ abstract class AbstractGateway extends WC_Payment_Gateway
         );
 
         $this->form_fields['split_settings_title'] = array(
-            'title' => __('Split Settings', 'woo-pagarme-payments'),
+            'title' => __('Configurações para Split', 'woo-pagarme-payments'),
             'type' => 'title',
-            'description' => __('Configure the percentages for affiliates and vendors.', 'woo-pagarme-payments'),
+            'description' => __('Configure a porcentagem de comissão dos afiliados e fornecedores.', 'woo-pagarme-payments'),
         );
     
 
         $this->form_fields['affiliate_percentage'] = array(
-            'title'       => __('Affiliate Percentage', 'woo-pagarme-payments'),
+            'title'       => __('Porcentagem de afiliado', 'woo-pagarme-payments'),
             'type'        => 'number',
-            'description' => __('Percentage of the order total that goes to the affiliate.', 'woo-pagarme-payments'),
-            'default'     => '5', // Valor padrão
+            'description' => __('Porcentagem que o afiliado irá receber.', 'woo-pagarme-payments'),
+            'default'     => '20', // Valor padrão
             'custom_attributes' => array(
                 'min' => '0',
                 'max' => '100',
@@ -357,10 +357,10 @@ abstract class AbstractGateway extends WC_Payment_Gateway
             ),
         );
         $this->form_fields['vendor_percentage'] = array(
-            'title'       => __('Vendor Percentage', 'woo-pagarme-payments'),
+            'title'       => __('Porcentagem de fornecedor', 'woo-pagarme-payments'),
             'type'        => 'number',
-            'description' => __('Percentage of the vendor\'s sales that goes to the vendor.', 'woo-pagarme-payments'),
-            'default'     => '85', // Valor padrão
+            'description' => __('Porcentage que o fornecedor ou fornecedores irão receber.', 'woo-pagarme-payments'),
+            'default'     => '70', // Valor padrão
             'custom_attributes' => array(
                 'min' => '0',
                 'max' => '100',
