@@ -1,6 +1,6 @@
 <?php
 /*
- * Plugin Name: Pagar.me for WooCommerce
+ * Plugin Name: Split Pagarme Hevah for WooCommerce
  * Version:     3.4.2
  * Author:      Pagar.me
  * Author URI:  https://pagar.me
