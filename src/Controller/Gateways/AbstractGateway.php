@@ -337,6 +337,14 @@ abstract class AbstractGateway extends WC_Payment_Gateway
             $this->append_form_fields(),
             $this->append_gateway_form_fields()
         );
+
+        $this->form_fields['split_settings_title'] = array(
+            'title' => __('Split Settings', 'woo-pagarme-payments'),
+            'type' => 'title',
+            'description' => __('Configure the percentages for affiliates and vendors.', 'woo-pagarme-payments'),
+        );
+    
+
         $this->form_fields['affiliate_percentage'] = array(
             'title'       => __('Affiliate Percentage', 'woo-pagarme-payments'),
             'type'        => 'number',

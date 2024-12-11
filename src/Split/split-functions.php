@@ -9,7 +9,6 @@ add_filter('pagarme_split_order', 'calcular_split_order', 10, 2);
 
 function calcular_split_order($order, $paymentMethod) {
     $orderId = $order->get_id();
-    $recipientHelper = new RecipientHelper();
     $splitService = new SplitService();
     $moneyService = new MoneyService(); // Crie uma instância do MoneyService
     
@@ -37,19 +36,16 @@ function calcular_split_order($order, $paymentMethod) {
 
     // 3. Calcular os valores do split
     $sellers = [];
-    $moneyService = new MoneyService(); // Movido para dentro da função
     $totalAmount = $moneyService->floatToCents(floatval($order->get_total()));
     $marketplaceAmount = 0;
 
-    // Calcula o valor do afiliado
-    $affiliateAmount = 0;
+
     if ($affiliateId) {
-        $affiliateRecipientId = $recipientHelper->getRecipientId($affiliateId);
+        $affiliateRecipientId = $splitService->getRecipientId($affiliateId); // Use SplitService para obter recipientId
         if ($affiliateRecipientId) {
             $affiliateAmount = ($affiliatePercentage / 100) * $totalAmount;
-
             $sellers[] = [
-                'recipient_id' => $affiliateRecipientId,
+                'recipient_id' => $affiliateRecipientId->getValue(), // Corrigido: getValue()
                 'amount' => intval($affiliateAmount),
                 'options' => [
                     'charge_processing_fee' => false,
@@ -59,30 +55,33 @@ function calcular_split_order($order, $paymentMethod) {
             ];
         } else {
             error_log("Recipient ID not found for affiliate $affiliateId");
+            // Trate o erro adequadamente, talvez retorne null ou lance uma exceção
+            return null;
         }
+    
 
-    }
+        foreach ($vendors as $vendorId => $vendorTotal) {
+            $vendorRecipientId = $splitService->getRecipientId($vendorId); // Use SplitService para obter recipientId
+            if ($vendorRecipientId) {
+                $vendorAmount = ($vendorPercentage / 100) * $moneyService->floatToCents($vendorTotal);
 
-    // Calcula o valor de cada vendor
-    foreach ($vendors as $vendorId => $vendorTotal) {
-        $vendorRecipientId = $recipientHelper->getRecipientId($vendorId);
-        if ($vendorRecipientId) {
-            $vendorAmount = ($vendorPercentage / 100) * $moneyService->floatToCents($vendorTotal); // Use moneyService aqui
-
-            $sellers[] = [
-                'recipient_id' => $vendorRecipientId,
-                'amount' => intval($vendorAmount),
-                'options' => [
-                    'charge_processing_fee' => true,
-                    'charge_remainder_fee' => true,
-                    'liable' => true,
-                ],
-            ];
-        } else {
+                $sellers[] = [
+                    'recipient_id' => $vendorRecipientId->getValue(), // Corrigido: getValue()
+                    'amount' => intval($vendorAmount),
+                    'options' => [
+                        'charge_processing_fee' => true,
+                        'charge_remainder_fee' => true,
+                        'liable' => true,
+                    ],
+                ];
+            }  else {
             error_log("Recipient ID not found for vendor $vendorId");
-            return null; // Ou lance uma exceção
+            // Trate o erro adequadamente, talvez retorne null ou lance uma exceção
+                return null;
         }
     }
+
+}
 
     // Calcula o valor do marketplace (valor restante)
     $totalSplitAmount = 0;
